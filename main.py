@@ -2,7 +2,7 @@
 import os
 import openai
 import json
-from prompts import anki, anki_card_comparison
+from prompts import anki, anki_pipeline, anki_card_comparison
 
 openai.api_type = "azure"
 openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
@@ -16,10 +16,10 @@ with open('./prompts/misc.json', 'r', encoding="utf8") as f:
 
 current_message = [{
     "role": "system",
-    "content": ""# anki_card_comparison.CardEditor
+    "content": anki_pipeline.extract_entities
 }] + [{
     "role": "user",
-    "content": "wpw syndrome"}]
+    "content": anki.bulbospinal_card}]
 
 print('prompting...')
 response = openai.ChatCompletion.create(
